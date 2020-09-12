@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Movies_Api</string>
+    <string name="txt_hello">Hello World</string>
+    <string name="image_poster">image_poster</string>
+    <string name="txt_title">Titulo: </string>
+    <string name="txt_genero">Gênero: </string>
+    <string name="txt_data">Lançamento: </string>
+    <string name="txt_TituloOriginal">Titulo original:      </string>
+    <string name="txt_dataLancamento">"Data de lançamento: "</string>
+    <string name="txt_lenguage">"Idioma original: "</string>
+    <string name="txt_popularidade">"Popularidade: "</string>
+    <string name="txt_adulto">"Adulto: "</string>
+    <string name="txt_sinopse">"Sinopse: "</string>
 </resources>

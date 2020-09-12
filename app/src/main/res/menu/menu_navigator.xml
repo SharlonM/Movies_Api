@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_populares"
+        android:title="Populares"
+        android:icon="@drawable/ic_popular" />
+
+    <item
+        android:id="@+id/item_cartaz"
+        android:title="Em Cartaz"
+        android:icon="@drawable/ic_cinema" />
+
+    <item
+        android:id="@+id/item_favoritos"
+        android:title="Favoritos"
+        android:icon="@drawable/ic_favorite_black" />
+
+    <item
+        android:id="@+id/item_series"
+        android:title="Series"
+        android:icon="@drawable/ic_series" />
+
+</menu>

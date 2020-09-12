@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layoutMain"
+    android:id="@+id/layout_series"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -16,18 +16,15 @@
         android:background="#000000"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <TextView
+            android:id="@+id/txt_exemple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:menu="@menu/menu_barra"
-            app:title="The Movie DB" />
+            android:text="activity series"
+            android:textSize="30dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/view_filmes"
+            android:id="@+id/view_series"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"

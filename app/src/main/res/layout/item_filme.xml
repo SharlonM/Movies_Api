@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="30dp"
+    android:backgroundTint="@color/colorAccent"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    app:layout_scrollFlags="snapMargins">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+
+        <ImageView
+            android:id="@+id/image_poster"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/image_poster"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/txt_titulo_filme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_poster"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:padding="2dp"
+            android:text="@string/txt_title"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_genero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_titulo_filme"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:padding="2dp"
+            android:text="@string/txt_genero"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txt_genero_filme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_titulo_filme"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:padding="2dp"
+            android:text="@string/txt_genero"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_genero"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:padding="2dp"
+            android:text="@string/txt_data"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txt_data_filme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_genero"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="3dp"
+            android:padding="2dp"
+            android:text="@string/txt_data"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,4 +1,4 @@
-package com.example.movies_api.http;
+package com.example.movies_api.http.filmes;
 
 
 import com.squareup.moshi.Json;
@@ -35,7 +35,12 @@ public class Mochi_Response {
     @Json(name = "backdrop_path")
     private String urlPosterSecundario;
 
-    public Mochi_Response(String urlPoster, String tituloOriginal, String titulo, int[] genero, String data, boolean adulto, String overview, String language, float popularidade, String urlPosterSecundario) {
+    @Json(name = "teste")
+    private String teste;
+
+    public Mochi_Response(String urlPoster, String tituloOriginal, String titulo, int[] genero, String data,
+                          boolean adulto, String overview, String language, float popularidade,
+                          String urlPosterSecundario, String teste) {
         this.urlPoster = urlPoster;
         this.tituloOriginal = tituloOriginal;
         this.titulo = titulo;
@@ -46,6 +51,7 @@ public class Mochi_Response {
         this.language = language;
         this.popularidade = popularidade;
         this.urlPosterSecundario = urlPosterSecundario;
+        this.teste = teste;
     }
 
     public String getUrlPoster() {
@@ -86,5 +92,9 @@ public class Mochi_Response {
 
     public String getUrlPosterSecundario() {
         return urlPosterSecundario;
+    }
+
+    public String getTeste() {
+        return teste;
     }
 }

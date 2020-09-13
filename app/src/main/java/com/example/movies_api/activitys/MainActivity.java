@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.movies_api.R;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
-import com.example.movies_api.http.Mochi_Genero;
 import com.example.movies_api.http.Mochi_Result;
+import com.example.movies_api.http.filmes.Mochi_Genero;
 import com.example.movies_api.model.Filme;
 import com.example.movies_api.model.Generos;
-import com.example.movies_api.model.listaAdapter;
+import com.example.movies_api.model.Series;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
     private int countPage = 1;
     private int maxPage = 10;
     private ProgressBar progressBar;
+    private static List<Generos> generos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
                     @Override
                     public void onResponse(Call<Mochi_Genero> call, Response<Mochi_Genero> response) {
                         if (response.isSuccessful()) {
-                            listaAdapter.setGeneros(response.body().getGeneros());
+                            generos = response.body().getGeneros();
+                            listaAdapter.setGeneros(generos);
                         } else {
                             Toast.makeText(MainActivity.this, "Erro ao obter generos", Toast.LENGTH_LONG).show();
                         }
@@ -151,28 +152,16 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
 
     private void configAdapter() {
         recyclerView = findViewById(R.id.view_filmes);
-        listaAdapter = new listaAdapter(this);
+        listaAdapter = new listaAdapter(this, true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(listaAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    isScroling = true;
-                }
-            }
+            public void onScrolled(@NonNull RecyclerView recyclerVi, int dx, int dy) {
+                super.onScrolled(recyclerVi, dx, dy);
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int total = recyclerView.computeVerticalScrollRange();
-                int exibidos = recyclerView.computeVerticalScrollOffset() + recyclerView.computeVerticalScrollExtent();
-
-                if (total == (exibidos)) {
-                    System.out.println("A");
-                    isScroling = false;
+                if (!recyclerVi.canScrollVertically(1)) {
                     carregarMais();
                 }
 
@@ -197,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
     }
 
     @Override
-    public void onItemFilmeClicado(Filme filme, List<Generos> generos) {
+    public void onItemFilmeClicado(Filme filme, List<Generos> gene, Series serie) {
 
         int[] genFilme = filme.getGenero();
         String aux = "Gêneros:    ";

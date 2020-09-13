@@ -1,5 +1,6 @@
 package com.example.movies_api.http;
 
+import com.example.movies_api.http.filmes.Mochi_Response;
 import com.squareup.moshi.Json;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public class Mochi_Result {
     public int getTotal_pages() {
         return total_pages;
     }
+
 }

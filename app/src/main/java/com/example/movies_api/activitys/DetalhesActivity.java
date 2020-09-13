@@ -15,11 +15,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.movies_api.R;
 import com.example.movies_api.model.Filme;
+import com.example.movies_api.model.Series;
 import com.squareup.picasso.Picasso;
 
 public class DetalhesActivity extends AppCompatActivity {
 
     public static final String extra_filme = "EXTRA_FILME";
+    public static final String extra_serie = "EXTRA_SERIE";
     public boolean favorito;
     private ImageView imagePoster;
     private TextView txtTituloOriginal, txtData, txtOverview,
@@ -34,23 +36,59 @@ public class DetalhesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         inicializarComponentes();
 
-        Filme filme = (Filme) getIntent().getSerializableExtra(extra_filme);
+        boolean choice = getIntent().getBooleanExtra("choice", true);
         String generos = getIntent().getStringExtra("generos");
-        toolbar.setTitle(filme.getTitulo());
-        Picasso.get().load("https://image.tmdb.org/t/p/original/" + filme.getUrlPosterSecundario())
-                .into(imagePoster);
-
-
-        SpannableStringBuilder str = new SpannableStringBuilder(txtTituloOriginal.getText() + "    " + filme.getTituloOriginal());
-        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 16, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        txtTituloOriginal.setText(str);
-        txtOverview.setText(txtOverview.getText() + "    " + filme.getOverview());
-        txtLanguage.setText("Idioma inicial:    " + filme.getLanguage());
-        txtData.setText("Data de lançamento:    " + filme.getData());
-        txtAdulto.setText(filme.isAdulto() ? "Classificação:    Adulta" : "Classificação:    Livre");
-        txtPopularidade.setText("Popularidade:    " + filme.getPopularidade());
         txtGenero.setText(generos);
+
+        if (choice) {
+
+            Filme filme = (Filme) getIntent().getSerializableExtra(extra_filme);
+
+            toolbar.setTitle(filme.getTitulo());
+            if (filme.getUrlPosterSecundario() == null) {
+                imagePoster.setImageResource(R.drawable.no_image);
+            } else {
+                Picasso.get().load("https://image.tmdb.org/t/p/original/" + filme.getUrlPosterSecundario())
+                        .into(imagePoster);
+            }
+
+
+            SpannableStringBuilder str = new SpannableStringBuilder(txtTituloOriginal.getText() + "    " + filme.getTituloOriginal());
+            str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 16, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            txtTituloOriginal.setText(str);
+            txtOverview.setText(txtOverview.getText() + "    " + filme.getOverview());
+            txtLanguage.setText("Idioma inicial:    " + filme.getLanguage());
+            txtData.setText("Data de lançamento:    " + filme.getData());
+            txtAdulto.setText(filme.isAdulto() ? "Classificação:    Adulta" : "Classificação:    Livre");
+            txtPopularidade.setText("Popularidade:    " + filme.getPopularidade());
+
+
+        } else {
+
+            Series serie = (Series) getIntent().getSerializableExtra(extra_serie);
+
+            toolbar.setTitle(serie.getNome());
+            if (serie.getUrlPosterOriginal() == null) {
+                imagePoster.setImageResource(R.drawable.no_image);
+            } else {
+                Picasso.get().load("https://image.tmdb.org/t/p/original/" + serie.getUrlPosterOriginal())
+                        .into(imagePoster);
+            }
+
+
+            SpannableStringBuilder str = new SpannableStringBuilder(txtTituloOriginal.getText() + "    " + serie.getNome_original());
+            str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 16, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            txtTituloOriginal.setText(str);
+            txtOverview.setText(txtOverview.getText() + "    " + serie.getOverview());
+            txtLanguage.setText("Idioma inicial:    " + serie.getLanguage());
+            txtData.setText("Data de lançamento:    " + serie.getDate());
+            txtAdulto.setText("Classificação:    Livre");
+            txtPopularidade.setText("Popularidade:    " + serie.getPopularidade());
+
+        }
+
     }
 
     void inicializarComponentes() {

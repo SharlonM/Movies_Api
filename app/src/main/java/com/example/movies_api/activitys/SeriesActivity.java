@@ -2,23 +2,56 @@ package com.example.movies_api.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies_api.R;
+import com.example.movies_api.http.Api_Services;
+import com.example.movies_api.http.Mapper_adapter;
+import com.example.movies_api.http.filmes.Mochi_Genero;
+import com.example.movies_api.http.series.Result_Series;
+import com.example.movies_api.model.Filme;
+import com.example.movies_api.model.Generos;
+import com.example.movies_api.model.Series;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SeriesActivity extends AppCompatActivity {
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class SeriesActivity extends AppCompatActivity implements listaAdapter.ItemFilmeClick {
 
     BottomNavigationView bottomNavigationView;
+    private RecyclerView recyclerView;
+    private listaAdapter listaAdapter;
+    private boolean isScroling = false;
+    private int countPage = 1;
+    private int maxPage = 10;
+    private ProgressBar progressBar;
+    private static List<Generos> generos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series);
+        configAdapter();
         bottomNavigator();
+        progressBar = findViewById(R.id.progress_series);
+        Toolbar toolbar = findViewById(R.id.toolbar_series);
+        setSupportActionBar(toolbar);
+        obterFilmes();
     }
 
     private void bottomNavigator() {
@@ -49,6 +82,122 @@ public class SeriesActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    private void configAdapter() {
+        recyclerView = findViewById(R.id.view_series);
+        listaAdapter = new listaAdapter(this, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(listaAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerVi, int dx, int dy) {
+                super.onScrolled(recyclerVi, dx, dy);
+
+                if (!recyclerVi.canScrollVertically(1)) {
+                    carregarMais();
+                }
+
+            }
+        });
+    }
+
+    private void carregarMais() {
+        if (countPage == maxPage) {
+            // acabou as paginas, avisar view
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    obterFilmes();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }, 1000);
+        }
+    }
+
+    private void obterFilmes() {
+
+        Api_Services.getInstance().getSeries("f321a808e68611f41312aa8408531476", "pt-BR", countPage++)
+                .enqueue(new Callback<Result_Series>() {
+                    @Override
+                    public void onResponse(Call<Result_Series> call, Response<Result_Series> response) {
+                        if (response.isSuccessful()) {
+                            listaAdapter.setSeries(Mapper_adapter.seriesParse(response.body().getResultSerie()));
+                            maxPage = response.body().getTotal_page();
+                        } else {
+                            //erro
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result_Series> call, Throwable t) {
+                        //erro
+                    }
+                });
+
+        Api_Services.getInstance().getGenSeries("f321a808e68611f41312aa8408531476", "pt-BR")
+                .enqueue(new Callback<Mochi_Genero>() {
+                    @Override
+                    public void onResponse(Call<Mochi_Genero> call, Response<Mochi_Genero> response) {
+                        if (response.isSuccessful()) {
+                            generos = response.body().getGeneros();
+                            listaAdapter.setGeneros(generos);
+                        } else {
+                            // erro
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mochi_Genero> call, Throwable t) {
+
+                    }
+                });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_barra, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.id_search:
+                System.out.println("search");
+                break;
+            case R.id.item_top:
+                recyclerView.smoothScrollToPosition(0);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemFilmeClicado(Filme filme, List<Generos> gen, Series serie) {
+
+        int[] genSerie = serie.getGeneros();
+        String aux = "Gênero:    ";
+
+        for (int i = 0; i < generos.size(); i++) {
+            for (int j = 0; j < genSerie.length; j++) {
+                if (generos.get(i).getId() == genSerie[j]) {
+                    aux += generos.get(i).getGenero() + " - ";
+                }
+            }
+        }
+
+        Intent intent = new Intent(this, DetalhesActivity.class);
+        intent.putExtra(DetalhesActivity.extra_serie, serie);
+        intent.putExtra("generos", aux);
+        intent.putExtra("choice", false);
+        startActivity(intent);
 
     }
 }

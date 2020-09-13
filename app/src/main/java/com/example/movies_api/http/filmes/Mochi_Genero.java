@@ -1,4 +1,4 @@
-package com.example.movies_api.http;
+package com.example.movies_api.http.filmes;
 
 import com.example.movies_api.model.Generos;
 import com.squareup.moshi.Json;

@@ -3,9 +3,10 @@ package com.example.movies_api.http.filmes;
 
 import com.squareup.moshi.Json;
 
-public class Mochi_Response {
+public class Filmes_Response {  // Recebe o json da api e os armazena de acordo com a informado nos seus nomes
 
     @Json(name = "poster_path")
+    // campo poster_path do json da api será armazenado na variavel urlpostar ...
     private String urlPoster;
 
     @Json(name = "original_title")
@@ -35,12 +36,10 @@ public class Mochi_Response {
     @Json(name = "backdrop_path")
     private String urlPosterSecundario;
 
-    @Json(name = "teste")
-    private String teste;
 
-    public Mochi_Response(String urlPoster, String tituloOriginal, String titulo, int[] genero, String data,
-                          boolean adulto, String overview, String language, float popularidade,
-                          String urlPosterSecundario, String teste) {
+    public Filmes_Response(String urlPoster, String tituloOriginal, String titulo, int[] genero, String data,
+                           boolean adulto, String overview, String language, float popularidade,
+                           String urlPosterSecundario) {
         this.urlPoster = urlPoster;
         this.tituloOriginal = tituloOriginal;
         this.titulo = titulo;
@@ -51,7 +50,6 @@ public class Mochi_Response {
         this.language = language;
         this.popularidade = popularidade;
         this.urlPosterSecundario = urlPosterSecundario;
-        this.teste = teste;
     }
 
     public String getUrlPoster() {
@@ -94,7 +92,4 @@ public class Mochi_Response {
         return urlPosterSecundario;
     }
 
-    public String getTeste() {
-        return teste;
-    }
 }

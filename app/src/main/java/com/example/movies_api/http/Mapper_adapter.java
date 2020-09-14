@@ -1,7 +1,7 @@
 package com.example.movies_api.http;
 
-import com.example.movies_api.http.filmes.Mochi_Response;
-import com.example.movies_api.http.series.Mochi_series;
+import com.example.movies_api.http.filmes.Filmes_Response;
+import com.example.movies_api.http.series.Series_Response;
 import com.example.movies_api.model.Filme;
 import com.example.movies_api.model.Series;
 
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mapper_adapter {
-    public static List<Filme> responseParse(List<Mochi_Response> mochiResponseList) {
+    public static List<Filme> responseParse(List<Filmes_Response> mochiResponseList) { // classe que faz as converções da lib para objeto
         List<Filme> listFilme = new ArrayList<>();
 
-        for (Mochi_Response listResponse : mochiResponseList) {
+        for (Filmes_Response listResponse : mochiResponseList) {
             final Filme filme = new Filme(
                     listResponse.getTitulo(),
                     listResponse.getUrlPoster(),
@@ -29,10 +29,10 @@ public class Mapper_adapter {
         return listFilme;
     }
 
-    public static List<Series> seriesParse(List<Mochi_series> lista) {
+    public static List<Series> seriesParse(List<Series_Response> lista) {
         List<Series> listSeries = new ArrayList<>();
 
-        for (Mochi_series listResponse : lista) {
+        for (Series_Response listResponse : lista) {
             final Series serie = new Series(
                     listResponse.getNome(),
                     listResponse.getNome_original(),

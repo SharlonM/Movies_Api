@@ -2,7 +2,7 @@ package com.example.movies_api.model;
 
 import java.io.Serializable;
 
-public class Filme implements Serializable {
+public class Filme implements Serializable {  // modelo de Filme serializado para troca de activitys
     private final String tituloOriginal;
     private final String urlPoster;
     private final String titulo;

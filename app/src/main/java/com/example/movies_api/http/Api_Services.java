@@ -6,7 +6,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class Api_Services {
     private static Filmes_Services INSTANCE;
 
-    public static Filmes_Services getInstance() {
+    public static Filmes_Services getInstance() {  // classe que vai criar a intancia com o retrofit para consumir api
 
         if (INSTANCE == null) {
             Retrofit retrofit = new Retrofit.Builder()

@@ -20,7 +20,7 @@ import com.example.movies_api.R;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
 import com.example.movies_api.http.Mochi_Result;
-import com.example.movies_api.http.filmes.Mochi_Genero;
+import com.example.movies_api.http.filmes.Filmes_Generos;
 import com.example.movies_api.model.Filme;
 import com.example.movies_api.model.Generos;
 import com.example.movies_api.model.Series;
@@ -67,9 +67,10 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.id_search:
-                System.out.println("search");
+                // configurar pesquisa
                 break;
             case R.id.item_top:
+                // voltar scroll para o topo
                 recyclerView.smoothScrollToPosition(0);
                 break;
         }
@@ -77,6 +78,10 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
     }
 
     private void obterFilmes() {
+
+        // requisitar get dos filmes, retornando para classe para filtrar somente o objeto result do json
+        // recebendo as respostas e passando pela parse para converter em objeto
+
         Api_Services.getInstance().getFilmesCartaz("f321a808e68611f41312aa8408531476", "pt-BR", countPage++, "BR")
                 .enqueue(new Callback<Mochi_Result>() {
                     @Override
@@ -95,10 +100,13 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
                         showError();
                     }
                 });
+
+        // requisitando get dos generos para enviar ao adapter( aparecer no grid ) e para os detalhes (click)
+
         Api_Services.getInstance().getGen("f321a808e68611f41312aa8408531476", "pt-BR")
-                .enqueue(new Callback<Mochi_Genero>() {
+                .enqueue(new Callback<Filmes_Generos>() {
                     @Override
-                    public void onResponse(Call<Mochi_Genero> call, Response<Mochi_Genero> response) {
+                    public void onResponse(Call<Filmes_Generos> call, Response<Filmes_Generos> response) {
                         if (response.isSuccessful()) {
                             generos = response.body().getGeneros();
                             listaAdapter.setGeneros(generos);
@@ -108,7 +116,7 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
                     }
 
                     @Override
-                    public void onFailure(Call<Mochi_Genero> call, Throwable t) {
+                    public void onFailure(Call<Filmes_Generos> call, Throwable t) {
 
                     }
                 });
@@ -119,6 +127,9 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
     }
 
     private void bottomNavigator() {
+
+        // barra de navegação inferior, inicialização e ações de click para troca de activitys.
+
         bottomNavigationView = findViewById(R.id.bottom_navigator);
         bottomNavigationView.setSelectedItemId(R.id.item_cartaz);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -150,6 +161,8 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
     }
 
     private void configAdapter() {
+        // configuração do adapter ( receber cada objeto para colocar no grid )
+        // verificação realtime do scroll pra saber quando estiver no final para carregar mais(infinity loading)
         recyclerView = findViewById(R.id.view_cartaz);
         listaAdapter = new listaAdapter(this, true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -169,6 +182,9 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
     }
 
     private void carregarMais() {
+
+        // verifica se já carregou todas as paginas da api, se não obtem mais filmes da api para mostrar no grid com delay de 1s )
+
         if (countPage == maxPage) {
             // acabou as paginas, avisar view
         } else {
@@ -186,6 +202,8 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
 
     @Override
     public void onItemFilmeClicado(Filme filme, List<Generos> gen, Series serie) {
+
+        // verifica o objeto clicado para abrir nova entidade passando o objeto clicado para exibir detalhes
 
         int[] genFilme = filme.getGenero();
         String aux = "Gêneros:    ";

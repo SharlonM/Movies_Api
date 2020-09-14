@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.movies_api.R;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
-import com.example.movies_api.http.filmes.Mochi_Genero;
+import com.example.movies_api.http.filmes.Filmes_Generos;
 import com.example.movies_api.http.series.Result_Series;
 import com.example.movies_api.model.Filme;
 import com.example.movies_api.model.Generos;
@@ -36,7 +36,6 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
     BottomNavigationView bottomNavigationView;
     private RecyclerView recyclerView;
     private listaAdapter listaAdapter;
-    private boolean isScroling = false;
     private int countPage = 1;
     private int maxPage = 10;
     private ProgressBar progressBar;
@@ -51,7 +50,7 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
         progressBar = findViewById(R.id.progress_series);
         Toolbar toolbar = findViewById(R.id.toolbar_series);
         setSupportActionBar(toolbar);
-        obterFilmes();
+        obterSeries();
     }
 
     private void bottomNavigator() {
@@ -112,14 +111,14 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    obterFilmes();
+                    obterSeries();
                     progressBar.setVisibility(View.GONE);
                 }
             }, 1000);
         }
     }
 
-    private void obterFilmes() {
+    private void obterSeries() {
 
         Api_Services.getInstance().getSeries("f321a808e68611f41312aa8408531476", "pt-BR", countPage++)
                 .enqueue(new Callback<Result_Series>() {
@@ -140,9 +139,9 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
                 });
 
         Api_Services.getInstance().getGenSeries("f321a808e68611f41312aa8408531476", "pt-BR")
-                .enqueue(new Callback<Mochi_Genero>() {
+                .enqueue(new Callback<Filmes_Generos>() {
                     @Override
-                    public void onResponse(Call<Mochi_Genero> call, Response<Mochi_Genero> response) {
+                    public void onResponse(Call<Filmes_Generos> call, Response<Filmes_Generos> response) {
                         if (response.isSuccessful()) {
                             generos = response.body().getGeneros();
                             listaAdapter.setGeneros(generos);
@@ -152,7 +151,7 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
                     }
 
                     @Override
-                    public void onFailure(Call<Mochi_Genero> call, Throwable t) {
+                    public void onFailure(Call<Filmes_Generos> call, Throwable t) {
 
                     }
                 });

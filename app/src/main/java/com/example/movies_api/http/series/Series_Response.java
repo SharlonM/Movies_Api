@@ -2,8 +2,9 @@ package com.example.movies_api.http.series;
 
 import com.squareup.moshi.Json;
 
-public class Mochi_series {
-    public Mochi_series(String ulr_poster, float popularidade, String urlPosterSecundario, String overview, String data, String language, int[] generos, String nome, String nome_original) {
+public class Series_Response {          // Recebe o json da api e os armazena de acordo com a informado nos seus nomes
+
+    public Series_Response(String ulr_poster, float popularidade, String urlPosterSecundario, String overview, String data, String language, int[] generos, String nome, String nome_original) {
         this.ulr_poster = ulr_poster;
         this.popularidade = popularidade;
         this.urlPosterSecundario = urlPosterSecundario;
@@ -16,6 +17,7 @@ public class Mochi_series {
     }
 
     @Json(name = "poster_path")
+    // campo poster_path do json da api será armazenado na variavel urlpostar ...
     private String ulr_poster;
 
     @Json(name = "popularity")

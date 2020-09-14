@@ -27,15 +27,15 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
     private List<Series> series;
     private static boolean choice;
 
-    public listaAdapter(ItemFilmeClick item, boolean b) {
-        itemFilmeClick = item;
-        filmes = new ArrayList<>();
+    public listaAdapter(ItemFilmeClick item, boolean b) {  // construtor que recebe o objeto de clique para saber qual filme escolhido
+        itemFilmeClick = item;                             // e um booleano para saber a escolha ( serie ou filme ) para tratar
+        filmes = new ArrayList<>();                        // inicializando os arrays para evitar nullpoints
         series = new ArrayList<>();
         choice = b;
     }
 
-    public void setFilmes(List<Filme> filmes) {
-        this.filmes.addAll(filmes);
+    public void setFilmes(List<Filme> filmes) {  // receber a lista de filmes para adcionar no gridview
+        this.filmes.addAll(filmes);             // metodo all para adcionar os novos sem retirar os filmes já adcionados.
         notifyDataSetChanged();
     }
 
@@ -45,13 +45,14 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
     }
 
     @NonNull
+    // metodo que cria a view, importando o layout xml criado para uma visualização em grid
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filme, parent, false);
         return new viewHolder(view);
     }
 
-    @Override
+    @Override       // metodo que serve como for, envia para o bind o objeto em cada posição
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
         if (choice) {
@@ -62,7 +63,7 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount() {     // tamanho do gridLayout
 
         if (choice) {
             return (filmes != null && filmes.size() != 0) ? filmes.size() : 0;
@@ -73,11 +74,12 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
 
     }
 
+    // receber os generos de filmes
     public void setGeneros(List<Generos> generos) {
         this.generos = generos;
     }
 
-    static class viewHolder extends RecyclerView.ViewHolder {
+    static class viewHolder extends RecyclerView.ViewHolder {   // classe holder, usada para setar os valores do layout de cada grid
         private TextView text_TituloFilme;
         private TextView text_data;
         private TextView text_genero;
@@ -87,7 +89,7 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
         private static List<Generos> gen;
         String generoTexto = "carregando";
 
-        public viewHolder(@NonNull View itemView) {
+        public viewHolder(@NonNull View itemView) {  // viewHolder, aqui é criado cada um dos grids e suas inicializações
             super(itemView);
 
             text_TituloFilme = itemView.findViewById(R.id.txt_titulo_filme);
@@ -96,7 +98,7 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
             imagePoster = itemView.findViewById(R.id.image_poster);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {            // Reconhecer ação de clique em um grid especifico e passar para activity tratar
                 @Override
                 public void onClick(View v) {
                     if (itemFilmeClick != null) {
@@ -107,10 +109,12 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
 
         }
 
-        public void bind(Filme filme, List<Generos> gener) {
+        public void bind(Filme filme, List<Generos> gener) {  // metodo para setar os valores do layout no grid
             this.movie = filme;
             gen = gener;
             int[] gen = filme.getGenero();
+
+            // for usado para encontrar os generos do filme ( recebe o array vindo do objeto de filmes com os ids e verifica seus nomes no array de generos )
             try {
                 for (int i = 0; i < gener.size(); i++) {
                     if (gener.get(i).getId() == gen[0]) {
@@ -132,7 +136,7 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
             }
         }
 
-        public void series(Series series, List<Generos> generos) {
+        public void series(Series series, List<Generos> generos) { // mesma coisa do metodo de cima, porem com o objeto series
             this.serie = series;
             gen = generos;
             int[] genSerie = serie.getGeneros();
@@ -158,7 +162,7 @@ public class listaAdapter extends RecyclerView.Adapter<listaAdapter.viewHolder> 
         }
     }
 
-    public interface ItemFilmeClick {
+    public interface ItemFilmeClick { // interface para a activity tratar as mudanças de telas
         void onItemFilmeClicado(Filme filme, List<Generos> gen, Series serie);
     }
 }

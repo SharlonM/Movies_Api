@@ -5,9 +5,9 @@ import com.squareup.moshi.Json;
 
 import java.util.List;
 
-public class Mochi_Genero {
+public class Filmes_Generos {  // recebe a lista de generos dos filmes da api
 
-    public Mochi_Genero(List<Generos> generos) {
+    public Filmes_Generos(List<Generos> generos) {
         this.generos = generos;
     }
 

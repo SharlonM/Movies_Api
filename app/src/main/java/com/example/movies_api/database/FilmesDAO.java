@@ -26,7 +26,7 @@ public interface FilmesDAO {
     @Query("SELECT * FROM Filmes")
     LiveData<List<FilmesEntity>> getAll();
 
-    @Query("SELECT * FROM Filmes WHERE id = :id")
-    FilmesEntity getFilme(int id);
+    @Query("SELECT * FROM Filmes WHERE titulo = :x")
+    FilmesEntity getFilme(String x);
 
 }

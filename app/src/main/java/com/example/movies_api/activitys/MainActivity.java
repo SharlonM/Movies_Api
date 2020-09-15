@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies_api.R;
+import com.example.movies_api.activitys.favoritos.FavoritosActivity;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
 import com.example.movies_api.http.Mochi_Result;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
         bottomNavigator();
 
         obterFilmes();
+
     }
 
     @Override
@@ -66,15 +68,7 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.id_search:
-                // configurar pesquisa
-                break;
-            case R.id.item_top:
-                // voltar scroll para o topo
-                recyclerView.smoothScrollToPosition(0);
-                break;
-        }
+        recyclerView.smoothScrollToPosition(0);
         return super.onOptionsItemSelected(item);
     }
 
@@ -213,10 +207,12 @@ public class MainActivity extends AppCompatActivity implements listaAdapter.Item
                 }
             }
         }
+        Boolean favorito = false;
 
         Intent intent = new Intent(this, DetalhesActivity.class);
         intent.putExtra(DetalhesActivity.extra_filme, filme);
         intent.putExtra("generos", aux);
+        intent.putExtra("favorito", favorito);
         startActivity(intent);
 
     }

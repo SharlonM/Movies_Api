@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies_api.R;
+import com.example.movies_api.activitys.favoritos.FavoritosActivity;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
 import com.example.movies_api.http.filmes.Filmes_Generos;
@@ -167,14 +168,7 @@ public class SeriesActivity extends AppCompatActivity implements listaAdapter.It
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.id_search:
-                System.out.println("search");
-                break;
-            case R.id.item_top:
-                recyclerView.smoothScrollToPosition(0);
-                break;
-        }
+        recyclerView.smoothScrollToPosition(0);
         return super.onOptionsItemSelected(item);
     }
 

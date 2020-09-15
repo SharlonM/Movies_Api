@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activitys.SeriesActivity"></activity>
-        <activity android:name=".activitys.FavoritosActivity" />
+        <activity android:name=".activitys.favoritos.FavoritosActivity" />
         <activity android:name=".activitys.CartazActivity" />
         <activity android:name=".activitys.DetalhesActivity" />
         <activity android:name=".activitys.MainActivity">

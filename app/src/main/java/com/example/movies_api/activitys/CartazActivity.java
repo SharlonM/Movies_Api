@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies_api.R;
+import com.example.movies_api.activitys.favoritos.FavoritosActivity;
 import com.example.movies_api.http.Api_Services;
 import com.example.movies_api.http.Mapper_adapter;
 import com.example.movies_api.http.Mochi_Result;
@@ -65,15 +66,7 @@ public class CartazActivity extends AppCompatActivity implements listaAdapter.It
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.id_search:
-                // configurar pesquisa
-                break;
-            case R.id.item_top:
-                // voltar scroll para o topo
-                recyclerView.smoothScrollToPosition(0);
-                break;
-        }
+        recyclerView.smoothScrollToPosition(0);
         return super.onOptionsItemSelected(item);
     }
 

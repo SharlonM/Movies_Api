@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.movies_api.R;
+import com.example.movies_api.database.FilmeViewModel;
+import com.example.movies_api.database.FilmesEntity;
 import com.example.movies_api.model.Filme;
 import com.example.movies_api.model.Series;
 import com.squareup.picasso.Picasso;
@@ -30,6 +33,9 @@ public class DetalhesActivity extends AppCompatActivity {
             txtAdulto, txtGenero, txtLanguage, txtPopularidade;
     private Filme filme;
     private Series serie;
+    private FilmeViewModel filmeViewModel;
+    String generos;
+    private boolean choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +47,9 @@ public class DetalhesActivity extends AppCompatActivity {
         inicializarComponentes();
 
         //recuperar dados da activity anterior
-        boolean choice = getIntent().getBooleanExtra("choice", true);
-        String generos = getIntent().getStringExtra("generos");
+        choice = getIntent().getBooleanExtra("choice", true);
+        generos = getIntent().getStringExtra("generos");
+        favorito = getIntent().getBooleanExtra("favorito", false);
         txtGenero.setText(generos);
 
         if (choice) {
@@ -117,13 +124,34 @@ public class DetalhesActivity extends AppCompatActivity {
     }
 
     void adcionarAosFavoritos() {
+
+        FilmesEntity filmesEntity = new FilmesEntity(
+                filme.getTituloOriginal(),
+                filme.getUrlPoster(),
+                filme.getTitulo(),
+                generos,
+                filme.getData(),
+                filme.isAdulto(),
+                filme.getOverview(),
+                filme.getLanguage(),
+                filme.getPopularidade(),
+                filme.getUrlPosterSecundario()
+        );
+        filmeViewModel = new ViewModelProvider(DetalhesActivity.this).get(FilmeViewModel.class);
+        filmeViewModel.insert(filmesEntity);
         Toast.makeText(this, "Adcionado aos favoritos", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_favorito, menu);
+        if (choice) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_favorito, menu);
+            if (favorito) {
+                menu.getItem(R.id.item_favoritar).setIcon(R.drawable.ic_favorite);
+            }
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -140,6 +168,7 @@ public class DetalhesActivity extends AppCompatActivity {
                 } else {
                     item.setIcon(R.drawable.ic_favorite);
                     favorito = true;
+                    adcionarAosFavoritos();
                 }
                 break;
             default:

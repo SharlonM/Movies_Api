@@ -13,6 +13,7 @@ public class Filme implements Serializable {  // modelo de Filme serializado par
     private final String language;
     private final float popularidade;
     private final String urlPosterSecundario;
+    private int id;
 
     public Filme(String titulo, String poster, String titulo1, int[] genero, String data, boolean adulto, String overview, String language, float popularidade, String urlPosterSecundario) {
         this.tituloOriginal = titulo1;
@@ -25,6 +26,14 @@ public class Filme implements Serializable {  // modelo de Filme serializado par
         this.language = language;
         this.popularidade = popularidade;
         this.urlPosterSecundario = urlPosterSecundario;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTituloOriginal() {

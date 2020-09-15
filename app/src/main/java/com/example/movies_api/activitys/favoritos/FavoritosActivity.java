@@ -117,7 +117,6 @@ public class FavoritosActivity extends AppCompatActivity implements AdapterFavor
     public void onItemFilmeClicado(FilmesEntity filme) {
         // verifica o objeto clicado para abrir nova entidade passando o objeto clicado para exibir detalhes
 
-        Boolean favorito = false;
         int[] i = {1, 2};
         String aux = filme.getGenero();
 
@@ -133,11 +132,12 @@ public class FavoritosActivity extends AppCompatActivity implements AdapterFavor
                 filme.getPopularidade(),
                 filme.getUrlPosterSecundario()
         );
+        filmeModel.setId(filme.getId());
 
         Intent intent = new Intent(this, DetalhesActivity.class);
         intent.putExtra(DetalhesActivity.extra_filme, filmeModel);
         intent.putExtra("generos", aux);
-        intent.putExtra("favorito", favorito);
+        intent.putExtra("favorito", true);
         startActivity(intent);
     }
 }

@@ -44,7 +44,7 @@ public class AdapterFavoritos extends RecyclerView.Adapter<AdapterFavoritos.Favo
     }
 
     public void setFilmes(List<FilmesEntity> filmes) {
-        this.filmes.addAll(filmes);
+        this.filmes = filmes;
         notifyDataSetChanged();
     }
 

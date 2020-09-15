@@ -142,13 +142,35 @@ public class DetalhesActivity extends AppCompatActivity {
         Toast.makeText(this, "Adcionado aos favoritos", Toast.LENGTH_LONG).show();
     }
 
+    void removerFavorito() {
+
+        FilmesEntity filmesEntity = new FilmesEntity(
+                filme.getTituloOriginal(),
+                filme.getUrlPoster(),
+                filme.getTitulo(),
+                generos,
+                filme.getData(),
+                filme.isAdulto(),
+                filme.getOverview(),
+                filme.getLanguage(),
+                filme.getPopularidade(),
+                filme.getUrlPosterSecundario()
+        );
+        filmesEntity.setId(filme.getId());
+
+        filmeViewModel = new ViewModelProvider(this).get(FilmeViewModel.class);
+        filmeViewModel.delete(filmesEntity);
+        Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_LONG).show();
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (choice) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_favorito, menu);
             if (favorito) {
-                menu.getItem(R.id.item_favoritar).setIcon(R.drawable.ic_favorite);
+                menu.getItem(0).setIcon(R.drawable.ic_favorite);
             }
         }
 
@@ -163,12 +185,13 @@ public class DetalhesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item_favoritar:
                 if (favorito) {
-                    item.setIcon(R.drawable.ic_nofavorite);
                     favorito = false;
+                    removerFavorito();
+                    item.setIcon(R.drawable.ic_nofavorite);
                 } else {
-                    item.setIcon(R.drawable.ic_favorite);
                     favorito = true;
                     adcionarAosFavoritos();
+                    item.setIcon(R.drawable.ic_favorite);
                 }
                 break;
             default:

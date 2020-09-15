@@ -1,6 +1,6 @@
 
 # **Movies_Api**
-## **_Mobile Codding Challenge_**
+## **_Mobile Coding Challenge_**
 ### Stant Licenciamento de Software LTDA
 
 #### Funcionalidades esperadas
